@@ -119,7 +119,6 @@ Independent community project – Not affiliated with Twitch.
 </footer>
 
 <script>
-
 const sheetID = "1UyHe9_JmoUhPA93UlSinJ658XUJm6X9Kcf9Ig7SXGHw";
 const url = `https://opensheet.elk.sh/${sheetID}/Sheet1`;
 
@@ -129,25 +128,31 @@ fetch(url)
 
     const container = document.getElementById("pilots");
 
-    data.sort((a, b) => a.ChannelName.localeCompare(b.ChannelName));
+    // Ordenamos por nombre de canal
+    data.sort((a, b) => (a.ChannelName || "").localeCompare(b.ChannelName || ""));
 
     data.forEach(pilot => {
 
         const card = document.createElement("div");
         card.className = "card";
 
+        // Valores por defecto para evitar "undefined"
+        const channelName = pilot.ChannelName || "Unknown Channel";
+        const language = pilot.Language || "Unknown Language";
+        const simulator = pilot.Simulator || "Microsoft Flight Simulator 2024";
+        const twitchURL = pilot.TwitchURL || "#";
+
         card.innerHTML = `
-            <h3>${pilot.ChannelName}</h3>
-            <p>${pilot.Country} | ${pilot.Language}</p>
-            <p>${pilot.Simulator} – ${pilot.Aircraft}</p>
-            <a href="${pilot.TwitchURL}" target="_blank" class="button">Watch on Twitch</a>
+            <h3>${channelName}</h3>
+            <p>${language}</p>
+            <p>${simulator}</p>
+            <a href="${twitchURL}" target="_blank" class="button">Watch on Twitch</a>
         `;
 
         container.appendChild(card);
     });
 
 });
-
 </script>
 
 </body>
