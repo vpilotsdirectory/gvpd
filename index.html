@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Global Twitch Virtual Pilots Directory</title>
+
+<style>
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: linear-gradient(135deg, #0e0e10, #18181b);
+    color: white;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+/* HERO */
+header {
+    padding: 100px 20px;
+    background: linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.8)),
+                url("https://images.unsplash.com/photo-1540962351504-03099e0a754b?q=80&w=1600&auto=format&fit=crop");
+    background-size: cover;
+    background-position: center;
+}
+
+h1 {
+    font-size: 44px;
+    margin-bottom: 10px;
+    color: #9146FF;
+}
+
+header p {
+    font-size: 18px;
+    opacity: 0.9;
+}
+
+/* AIRPLANE SECTION */
+.hero-plane {
+    margin-top: -40px;
+}
+
+.hero-plane img {
+    width: 180px;
+    filter: drop-shadow(0 0 15px rgba(145,70,255,0.6));
+}
+
+/* DIRECTORY */
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 60px 20px;
+}
+
+/* CARDS */
+.card {
+    background-color: #1f1f23;
+    padding: 20px;
+    margin: 15px;
+    width: 280px;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    border: 1px solid #2f2f35;
+}
+
+.card:hover {
+    transform: translateY(-6px);
+    border-color: #9146FF;
+    box-shadow: 0 0 18px rgba(145, 70, 255, 0.4);
+}
+
+.card h3 {
+    margin-top: 0;
+    color: #9146FF;
+}
+
+/* BUTTON */
+.button {
+    display: inline-block;
+    padding: 10px 18px;
+    margin-top: 15px;
+    background-color: #9146FF;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: bold;
+    transition: background 0.2s ease;
+}
+
+.button:hover {
+    background-color: #772ce8;
+}
+
+/* FOOTER */
+footer {
+    margin-top: 60px;
+    padding: 20px;
+    font-size: 12px;
+    opacity: 0.6;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>Global Twitch Virtual Pilots Directory</h1>
+<p>Connecting the worldwide flight simulation streaming community.</p>
+</header>
+
+<div class="hero-plane">
+    <img src="https://cdn-icons-png.flaticon.com/512/684/684908.png" alt="Airplane Icon">
+</div>
+
+<div class="container" id="pilots"></div>
+
+<footer>
+Independent community project – Not affiliated with Twitch.
+</footer>
+
+<script>
+
+const sheetID = "1UyHe9_JmoUhPA93UlSinJ658XUJm6X9Kcf9Ig7SXGHw";
+const url = `https://opensheet.elk.sh/${sheetID}/Sheet1`;
+
+fetch(url)
+.then(res => res.json())
+.then(data => {
+
+    const container = document.getElementById("pilots");
+
+    data.sort((a, b) => a.ChannelName.localeCompare(b.ChannelName));
+
+    data.forEach(pilot => {
+
+        const card = document.createElement("div");
+        card.className = "card";
+
+        card.innerHTML = `
+            <h3>${pilot.ChannelName}</h3>
+            <p>${pilot.Country} | ${pilot.Language}</p>
+            <p>${pilot.Simulator} – ${pilot.Aircraft}</p>
+            <a href="${pilot.TwitchURL}" target="_blank" class="button">Watch on Twitch</a>
+        `;
+
+        container.appendChild(card);
+    });
+
+});
+
+</script>
+
+</body>
+</html>
